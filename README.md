@@ -23,8 +23,41 @@ vim wp-config.php
 sed 's/faktograf\.hr/localhost:82/g' faktograf_wp_fg_20161010_677.sql | sed 's/home\/faktograf\/public_html\/site/home\/www\/faktograf/g' > DB/konfliktiinteresa_me.sql | mysql ki -u ki -pki
 
 # TODO: anonimization of dat
-mysql ki -u ki -pki -e "UPDATE cdt_users SET user_pass=MD5('Password1')"
+mysql fg -u fg -pfg  -e "UPDATE fg_users SET user_pass=MD5('Password1'), user_email='admin@faktograf.hr';"
+mysql fg -u fg -pfg  -e "DELETE FROM fg_users WHERE ID > 1;" # assuming first has admin rights
+ SELECT * FROM fg_usermeta where meta_key = 'fg_capabilities'; - TODO resztę usunąć
+ sprawdzic maile
+ sprawdzic nazwy osób
+DROP TABLE fg_wf* | fg_wfBadLeechers      |
+| fg_wfBlockedIPLog     |
+| fg_wfBlocks           |
+| fg_wfBlocksAdv        |
+| fg_wfConfig           |
+| fg_wfCrawlers         |
+| fg_wfFileMods         |
+| fg_wfHits             |
+| fg_wfHoover           |
+| fg_wfIssues           |
+| fg_wfLeechers         |
+| fg_wfLockedOut        |
+| fg_wfLocs             |
+| fg_wfLogins           |
+| fg_wfNet404s          |
+| fg_wfReverseCache     |
+| fg_wfSNIPCache        |
+| fg_wfScanners         |
+| fg_wfStatus           |
+| fg_wfThrottleLog      |
+| fg_wfVulnScanners 
 
+
+
+
+# Import database
+mysql fg -u fg -pfg < wp-content/themes/faktograf/initialize/faktograf_wp_fg_20161010_677.sql
+
+
+```
 
 ## Required plugins:
 
