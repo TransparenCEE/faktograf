@@ -23,40 +23,21 @@ vim wp-config.php
 sed 's/faktograf\.hr/localhost:82/g' faktograf_wp_fg_20161010_677.sql | sed 's/home\/faktograf\/public_html\/site/home\/www\/faktograf/g' > DB/konfliktiinteresa_me.sql | mysql ki -u ki -pki
 
 # TODO: anonimization of dat
-mysql fg -u fg -pfg  -e "UPDATE fg_users SET user_pass=MD5('Password1'), user_email='admin@faktograf.hr';"
-mysql fg -u fg -pfg  -e "DELETE FROM fg_users WHERE ID > 1;" # assuming first has admin rights
- SELECT * FROM fg_usermeta where meta_key = 'fg_capabilities'; - TODO resztę usunąć
- sprawdzic maile
+mysql fg -u fg -pfg  -e "UPDATE fg_users SET user_pass=MD5('Password1'), user_email=CONCAT('user', ID, '@faktograf.hr'), display_name='Faktograf user', user_url=NULL, user_login=CONCAT('user',ID), user_nicename=CONCAT('user',ID);"
+mysql fg -u fg -pfg  -e "DELETE FROM fg_usermeta WHERE meta_key != 'fg_capabilities';"
+
+# delete wf* plugin tables
+mysql fg -u fg -pfg -N -e "SELECT CONCAT( 'DROP TABLE ', GROUP_CONCAT(table_name) , ';' ) FROM information_schema.tables WHERE table_schema = 'fg' AND table_name LIKE 'fg_wf%';" | mysql fg -u fg -pfg
+
+mysql fg -u fg -pfg  -e "DELETE TABLE fg_pollsa,!!!! tylko to->fg_pollsip,fg_pollsq;" # TODO trim
+mysql fg -u fg -pfg  -e "DELETE TABLE fg_et_social_stats;" # TODO trim
+
+ sprawdzic mailebl
  sprawdzic nazwy osób
-DROP TABLE fg_wf* | fg_wfBadLeechers      |
-| fg_wfBlockedIPLog     |
-| fg_wfBlocks           |
-| fg_wfBlocksAdv        |
-| fg_wfConfig           |
-| fg_wfCrawlers         |
-| fg_wfFileMods         |
-| fg_wfHits             |
-| fg_wfHoover           |
-| fg_wfIssues           |
-| fg_wfLeechers         |
-| fg_wfLockedOut        |
-| fg_wfLocs             |
-| fg_wfLogins           |
-| fg_wfNet404s          |
-| fg_wfReverseCache     |
-| fg_wfSNIPCache        |
-| fg_wfScanners         |
-| fg_wfStatus           |
-| fg_wfThrottleLog      |
-| fg_wfVulnScanners 
-
-
 
 
 # Import database
 mysql fg -u fg -pfg < wp-content/themes/faktograf/initialize/faktograf_wp_fg_20161010_677.sql
-
-
 ```
 
 ## Required plugins:
