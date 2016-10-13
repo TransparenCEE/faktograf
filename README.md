@@ -19,25 +19,13 @@ echo "Edit db connection params and set $table_prefix  = 'fg_';"
 cp wp-config-sample.php wp-config.php
 vim wp-config.php
 
-# change site URL to one of your server
-sed 's/faktograf\.hr/localhost:82/g' faktograf_wp_fg_20161010_677.sql | sed 's/home\/faktograf\/public_html\/site/home\/www\/faktograf/g' > DB/konfliktiinteresa_me.sql | mysql ki -u ki -pki
+# change site URL to one of your server and load database
+sed 's/faktograf\.hr/localhost:82/g' wp-content/themes/faktograf/initialize/sampledata.sql | sed 's/home\/faktograf\/public_html\/site/home\/www\/faktograf/g' | mysql fg -u fg -pfg
 
-# TODO: anonimization of dat
-mysql fg -u fg -pfg  -e "UPDATE fg_users SET user_pass=MD5('Password1'), user_email=CONCAT('user', ID, '@faktograf.hr'), display_name='Faktograf user', user_url=NULL, user_login=CONCAT('user',ID), user_nicename=CONCAT('user',ID);"
-mysql fg -u fg -pfg  -e "DELETE FROM fg_usermeta WHERE meta_key != 'fg_capabilities';"
+# TODO figure out `site` suffix in urls
 
-# delete wf* plugin tables
-mysql fg -u fg -pfg -N -e "SELECT CONCAT( 'DROP TABLE ', GROUP_CONCAT(table_name) , ';' ) FROM information_schema.tables WHERE table_schema = 'fg' AND table_name LIKE 'fg_wf%';" | mysql fg -u fg -pfg
-
-mysql fg -u fg -pfg  -e "DELETE TABLE fg_pollsa,!!!! tylko to->fg_pollsip,fg_pollsq;" # TODO trim
-mysql fg -u fg -pfg  -e "DELETE TABLE fg_et_social_stats;" # TODO trim
-
- sprawdzic mailebl
- sprawdzic nazwy osób
-
-
-# Import database
-mysql fg -u fg -pfg < wp-content/themes/faktograf/initialize/faktograf_wp_fg_20161010_677.sql
+# TODO build dist
+# TODO add uploads
 ```
 
 ## Required plugins:
