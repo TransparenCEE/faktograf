@@ -1,6 +1,6 @@
 # Include your project-specific ignores in this file
 # Read about how to use .gitignore: https://help.github.com/articles/ignoring-files
-dist
+# dist # comment to be able to deploy quickly
 bower_components
 node_modules
 npm-debug.log
